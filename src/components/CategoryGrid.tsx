@@ -16,30 +16,69 @@ const categories = [
 ];
 
 const CategoryGrid = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
   return (
     <section className="py-10 px-4">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-2xl font-display font-bold text-foreground mb-6">
+        <motion.h2
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-2xl font-display font-bold text-foreground mb-6"
+        >
           Shop by Category
-        </h2>
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
-          {categories.map((cat, i) => (
+        </motion.h2>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          className="grid grid-cols-3 md:grid-cols-6 gap-4"
+        >
+          {categories.map((cat) => (
             <motion.button
               key={cat.name}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.08 }}
+              variants={itemVariants}
+              whileHover={{ scale: 1.08, y: -8 }}
+              whileTap={{ scale: 0.95 }}
               className={`${cat.color} rounded-2xl p-4 flex flex-col items-center gap-3 hover:shadow-product-hover transition-all duration-300 cursor-pointer group`}
             >
-              <img
+              <motion.img
                 src={cat.image}
                 alt={cat.name}
-                className="w-20 h-20 object-contain group-hover:scale-110 transition-transform duration-300"
+                whileHover={{ scale: 1.2 }}
+                transition={{ type: "spring", stiffness: 400 }}
+                className="w-20 h-20 object-contain"
               />
-              <span className="text-sm font-bold font-body text-foreground">{cat.name}</span>
+              <motion.span
+                initial={{ opacity: 0.8 }}
+                whileHover={{ opacity: 1 }}
+                className="text-sm font-bold font-body text-foreground"
+              >
+                {cat.name}
+              </motion.span>
             </motion.button>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

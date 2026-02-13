@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import catVegetables from "@/assets/cat-vegetables.png";
 import catFruits from "@/assets/cat-fruits.png";
@@ -28,6 +28,7 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
       className="bg-card rounded-2xl border border-border p-3 shadow-product hover:shadow-product-hover transition-all duration-300 flex flex-col"
     >
       {/* Tag */}
@@ -59,12 +60,14 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
           </div>
 
           {qty === 0 ? (
-            <button
+            <motion.button
               onClick={() => setQty(1)}
               className="bg-card border-2 border-brand-green text-brand-green font-bold text-sm px-4 py-1.5 rounded-lg hover:bg-brand-green hover:text-accent-foreground transition-all duration-200"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               ADD
-            </button>
+            </motion.button>
           ) : (
             <div className="flex items-center gap-1 bg-brand-green rounded-lg overflow-hidden">
               <button
@@ -89,22 +92,47 @@ const ProductCard = ({ product }: { product: typeof products[0] }) => {
 };
 
 const ProductGrid = () => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
   return (
     <section className="py-10 px-4 bg-surface-warm">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex items-center justify-between mb-6"
+        >
           <h2 className="text-2xl font-display font-bold text-foreground">
             Bestsellers
           </h2>
-          <button className="text-sm font-bold text-brand-green hover:underline">
+          <motion.button
+            whileHover={{ x: 5 }}
+            className="text-sm font-bold text-brand-green hover:underline transition-all"
+          >
             See all →
-          </button>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          </motion.button>
+        </motion.div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"
+        >
           {products.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
