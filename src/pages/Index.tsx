@@ -1,20 +1,19 @@
-import { Navbar, Footer } from "@/components/NavFooter";
-import HeroSection from "@/components/HeroSection";
-import EventsSection from "@/components/EventsSection";
-import ScheduleSection from "@/components/ScheduleSection";
-import AboutSection from "@/components/AboutSection";
-import RegisterSection from "@/components/RegisterSection";
+import ShopNavbar from "@/components/ShopNavbar";
+import ShopHero from "@/components/ShopHero";
+import CategoryGrid from "@/components/CategoryGrid";
+import ProductGrid from "@/components/ProductGrid";
+import DeliveryBanner from "@/components/DeliveryBanner";
+import ShopFooter from "@/components/ShopFooter";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
-      <HeroSection />
-      <EventsSection />
-      <ScheduleSection />
-      <AboutSection />
-      <RegisterSection />
-      <Footer />
+      <ShopNavbar />
+      <ShopHero />
+      <CategoryGrid />
+      <ProductGrid />
+      <DeliveryBanner />
+      <ShopFooter />
     </div>
   );
 };
